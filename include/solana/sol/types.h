@@ -12,7 +12,7 @@ extern "C" {
  *
  * Inlined here until <assert.h> is available
  */
-#if (defined _ISOC11_SOURCE || (defined __STDC_VERSION__ && __STDC_VERSION__ >= 201112L)) && !defined (__cplusplus)
+#if (defined _ISOC11_SOURCE || (defined __STDC_VERSION__ && __STDC_VERSION__ >= 201112L)) && !defined(__cplusplus)
 #undef static_assert
 #define static_assert _Static_assert
 #endif
@@ -20,6 +20,9 @@ extern "C" {
 /**
  * Numeric types
  */
+
+#ifndef ALON_TEST
+
 #ifndef __LP64__
 #error LP64 data model required
 #endif
@@ -35,7 +38,7 @@ typedef unsigned long int uint64_t;
 typedef int64_t ssize_t;
 typedef uint64_t size_t;
 
-#if defined (__cplusplus) || defined(static_assert)
+#if defined(__cplusplus) || defined(static_assert)
 static_assert(sizeof(int8_t) == 1);
 static_assert(sizeof(uint8_t) == 1);
 static_assert(sizeof(int16_t) == 2);
@@ -49,26 +52,35 @@ static_assert(sizeof(uint64_t) == 8);
 /**
  * Minimum of signed integral types
  */
-#define INT8_MIN   (-128)
-#define INT16_MIN  (-32767-1)
-#define INT32_MIN  (-2147483647-1)
-#define INT64_MIN  (-9223372036854775807L-1)
+#define INT8_MIN (-128)
+#define INT16_MIN (-32767 - 1)
+#define INT32_MIN (-2147483647 - 1)
+#define INT64_MIN (-9223372036854775807L - 1)
 
 /**
  * Maximum of signed integral types
  */
-#define INT8_MAX   (127)
-#define INT16_MAX  (32767)
-#define INT32_MAX  (2147483647)
-#define INT64_MAX  (9223372036854775807L)
+#define INT8_MAX (127)
+#define INT16_MAX (32767)
+#define INT32_MAX (2147483647)
+#define INT64_MAX (9223372036854775807L)
 
 /**
  * Maximum of unsigned integral types
  */
-#define UINT8_MAX   (255)
-#define UINT16_MAX  (65535)
-#define UINT32_MAX  (4294967295U)
-#define UINT64_MAX  (18446744073709551615UL)
+#define UINT8_MAX (255)
+#define UINT16_MAX (65535)
+#define UINT32_MAX (4294967295U)
+#define UINT64_MAX (18446744073709551615UL)
+
+#else
+
+#include <stdint.h>
+
+typedef int64_t ssize_t;
+typedef uint64_t size_t;
+
+#endif
 
 /**
  * NULL
@@ -130,8 +142,8 @@ static_assert(sizeof(uint64_t) == 8);
  * Byte array pointer and string
  */
 typedef struct {
-  const uint8_t *addr; /** bytes */
-  uint64_t len; /** number of bytes*/
+    const uint8_t* addr; /** bytes */
+    uint64_t len; /** number of bytes*/
 } SolBytes;
 
 #ifdef __cplusplus
